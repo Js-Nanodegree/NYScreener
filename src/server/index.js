@@ -9,7 +9,7 @@ function startExpressApp() {
 }
 
 const worker = async (workerId, disconnect) => {
-    startExpressApp();
+    // startExpressApp();
     const shutdown = () => {
         disconnect();
     };
@@ -18,6 +18,7 @@ const worker = async (workerId, disconnect) => {
 };
 
 const master = async () => {
+    startExpressApp();
     console.log("Started master.");
 };
 
