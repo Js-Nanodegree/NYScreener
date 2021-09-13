@@ -5,5 +5,8 @@
   "repository": "git@github.com:Js-Nanodegree/NYScreener.git",
   "author": "js-nanodegree <sy@zen.car>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  }
 }
