@@ -8,5 +8,19 @@
   "private": true,
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^1.22.6",
+    "cluster": "^0.7.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "graphql": "^15.5.3",
+    "graphql-modules": "^1.4.4",
+    "http": "^0.0.1-security",
+    "process": "^0.11.10",
+    "react": "^17.0.2",
+    "react-native": "^0.65.1",
+    "throng": "^5.0.0"
   }
 }
