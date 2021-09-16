@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "npm i @babel/node && pm2 start npm -- run server",
+    "start": "pm2 start npm -- run server",
     "dev": "npx babel-node index.js",
     "server": "babel-node ./index.js"
   },
