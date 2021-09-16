@@ -15,6 +15,6 @@ const server = new ApolloServer({
     schema,
 });
 
-server.listen(3000).then(({ url }) => {
+server.listen(3000,'0.0.0.0').then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
 });
