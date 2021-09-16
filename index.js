@@ -1,10 +1,16 @@
-const throng = require("throng");
-const { master, worker } = require('./src/server')
-const os = require("os");
+import express from "express";
+import { ApolloServer } from "apollo-server";
 
-throng({
-    master,
-    worker,
-    count: os.cpus().length,
-    signals: ["SIGTERM", "SIGINT"],
+import addon from './addon'
+
+const app = express();
+
+addon(app)
+
+const server = new ApolloServer({
+    schema,
+});
+
+server.listen().then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
 });
