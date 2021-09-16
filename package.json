@@ -7,11 +7,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "pm2 start --interpreter babel-node ecosystem.config.js --env development",
-    "start": "nodemon --exec babel-node index.js",
-    "server": "nodemon --exec babel-node src/server/express.js"
+    "start": "pm2 start --interpreter babel-node ecosystem.config.js --env development",
+    "dev": "nodemon --config nodemon.json --exec babel-node index.js"
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.15.0",
     "@supabase/supabase-js": "^1.22.6",
     "apollo-server": "^3.3.0",
     "apollo-server-express": "^3.3.0",
@@ -30,11 +30,13 @@
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-native": "^0.65.1",
+    "reflect-metadata": "^0.1.13",
     "throng": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/node": "^7.15.4",
+    "@babel/plugin-proposal-decorators": "^7.15.4",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5"
   }

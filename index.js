@@ -1,6 +1,6 @@
 import express from "express";
 import { ApolloServer } from "apollo-server";
-
+import schema from './src/graphql'
 import addon from './addon'
 
 const app = express();

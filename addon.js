@@ -1,6 +1,6 @@
 import compression from "compression";
 import helmet from "helmet";
-
+import express from 'express'
 
 export default (app) => {
     app.use(compression());
