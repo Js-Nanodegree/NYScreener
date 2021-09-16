@@ -7,8 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "pm2 start --interpreter babel-node ecosystem.config.js --env development",
-    "dev": "npx babel-node index.js"
+    "start": "npm i @babel/node g && pm2 start npm -- run server",
+    "dev": "npx babel-node index.js",
+    "server": "babel-node ./index.js"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.15.0",
