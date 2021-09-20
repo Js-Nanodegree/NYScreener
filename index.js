@@ -1,18 +1,20 @@
 import express from "express";
 import { ApolloServer } from "apollo-server";
-import schema from './src/graphql'
-import addon from './addon'
+import schema from "./src/graphql";
+import addon from "./addon";
 
-const port = process.env.PORT || 3000
-
-console.log({ port })
-
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || "0.0.0.0";
 const app = express();
+addon(app);
 
-addon(app)
+const server = new ApolloServer({
+    schema,
+});
+server['graphqlPath'] = "/api/v1"
 
-// const server = new ApolloServer({
-//     schema,
-// });
 
-app.listen(port, '0.0.0.0')
+console.log(server)
+
+server.listen(port, host);
+

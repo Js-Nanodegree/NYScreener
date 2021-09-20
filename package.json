@@ -7,9 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "pm2 start --interpreter babel-node ecosystem.config.js --env development",
     "start": "npx babel-node index.js",
-    "server": "nodemon --config nodemon.json --exec babel-node index.js"
+    "dev": "npx babel-node index.js --PORT=3000",
+    "server": "nodemon --config nodemon.json  -L --exec babel-node index.js"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.15.0",
