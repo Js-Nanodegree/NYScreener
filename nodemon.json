@@ -2,7 +2,7 @@
   "signal": "SIGHUP",
   "ext": "ts",
   "exec": "npm run serve",
-  "watch": ["src"],
+  "watch": ["index.js", "src/","addon.js"],
   "env": {
     "PORT": "3000",
     "HOST": "0.0.0.0"
