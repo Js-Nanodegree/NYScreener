@@ -11,10 +11,8 @@ const app = express();
 
 addon(app)
 
-const server = new ApolloServer({
-    schema,
-});
+// const server = new ApolloServer({
+//     schema,
+// });
 
-server.listen(3000,'0.0.0.0').then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
-});
+app.listen(port, '0.0.0.0')
