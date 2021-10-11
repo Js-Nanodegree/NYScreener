@@ -1,5 +1,6 @@
 import { Injectable } from "graphql-modules";
-import { messages, pubsub, MESSAGE_ADDED } from "./application";
+import pubSub, { SUBSCRIBE } from "../pubsub";
+let messages = [];
 
 @Injectable()
 class Messages {
@@ -9,13 +10,12 @@ class Messages {
 
   async send(body) {
     const message = {
-      id: Math.random(),
+      id: 12,
       body,
     };
 
     messages.push(message);
-
-    pubsub.publish(MESSAGE_ADDED, { messageAdded: message });
+    pubSub(SUBSCRIBE, { messageAdded: message });
 
     return message;
   }

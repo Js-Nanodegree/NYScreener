@@ -1,13 +1,15 @@
 import { createModule, gql } from "graphql-modules";
-import { Messages, pubsub, MESSAGE_ADDED } from "./application";
+import Messages  from "../provider";
 import typeDefs from "../schema";
-import resolvers from "../resolvers";
+import resolvers from "../connecter";
 
 const idModule = "ChatModule";
 
-export const myModule = createModule({
+const myModule = createModule({
   id: idModule,
   providers: [Messages],
   typeDefs,
   resolvers,
 });
+
+export default myModule;

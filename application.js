@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { createApplication } from "graphql-modules";
 import { PubSub } from "graphql-subscriptions";
-import { myModule } from "./myModule";
+import ChatModule from "./src";
 
 export const pubsub = new PubSub();
 
@@ -10,7 +10,7 @@ export const MESSAGE_ADDED = "MESSAGE_ADDED";
 export let messages = [];
 
 export const application = createApplication({
-  modules: [myModule],
+  modules: [ChatModule],
   context: (session) => {
     console.log(session);
     return {

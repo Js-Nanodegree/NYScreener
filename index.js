@@ -3,7 +3,6 @@ const { createServer } = require("http");
 const express = require("express");
 // const { execute, subscribe } = require("graphql");
 const { ApolloServer, gql } = require("apollo-server-express");
-const { PubSub } = require("graphql-subscriptions");
 const { SubscriptionServer } = require("subscriptions-transport-ws");
 import { schema, execute, subscribe } from "./application";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
@@ -29,6 +28,8 @@ const context = ({ req }) => {
   };
 };
 
+let listConnect = [];
+
 (async () => {
   const server = new ApolloServer({
     schema,
@@ -46,7 +47,23 @@ const context = ({ req }) => {
 
     // @ts-ignore
     new SubscriptionServer.create(
-      { schema, execute, subscribe },
+      {
+        schema,
+        execute,
+        subscribe,
+        onConnect(connectionParams, webSocket, context) {
+          const connection =
+            webSocket?.upgradeReq?.headers["sec-websocket-key"];
+          const currentUser = connectionParams?.Authorization;
+
+          listConnect.push({ currentUser, connection });
+          return { connection, currentUser };
+        },
+        onDisconnect(webSocket, context) {
+          console.log(context);
+          console.log("Disconnected!");
+        },
+      },
       { server: httpServer, path: server.graphqlPath }
     );
 
@@ -55,3 +72,6 @@ const context = ({ req }) => {
     );
   });
 })();
+
+
+console.log(listConnect)

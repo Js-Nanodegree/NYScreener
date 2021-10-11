@@ -1,4 +1,6 @@
-import { SUBSCRIBE } from "../connecter";
+import { SUBSCRIBE, pubsub } from "../pubsub";
+import { withFilter } from "graphql-subscriptions";
+import Messages from "../provider";
 
 export default {
   Query: {

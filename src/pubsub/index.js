@@ -1,8 +1,7 @@
-import { GooglePubSub } from "@axelspringer/graphql-google-pubsub";
-export const pubsub = new GooglePubSub();
+import { PubSub } from "graphql-subscriptions";
+export const pubsub = new PubSub();
+export const SUBSCRIBE = "SUBSCRIBE";
 
-export const SUBSCRIBE="SUBSCRIBE"
-
-const publish = ({ CHANNEL, MESSAGE }) => pubsub.publish(CHANNEL, message);
+const publish = (CHANNEL, MESSAGE = {}) => pubsub.publish(CHANNEL, MESSAGE);
 
 export default publish;
