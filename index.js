@@ -1,20 +1,57 @@
-import express from "express";
-import { ApolloServer } from "apollo-server";
-import schema from "./src/graphql";
-import addon from "./addon";
+// @ts-check
+const { createServer } = require("http");
+const express = require("express");
+// const { execute, subscribe } = require("graphql");
+const { ApolloServer, gql } = require("apollo-server-express");
+const { PubSub } = require("graphql-subscriptions");
+const { SubscriptionServer } = require("subscriptions-transport-ws");
+import { schema, execute, subscribe } from "./application";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || "0.0.0.0";
+const PORT = 4000;
 const app = express();
-addon(app);
+const httpServer = createServer(app);
+let channel = [];
 
-const server = new ApolloServer({
+const context = ({ req }) => {
+  let authToken = null;
+  let currentUser = null;
+  try {
+    authToken = req.headers["authorization"];
+    channel[authToken] = authToken;
+  } catch (e) {
+    console.warn(`Unable to authenticate using auth token: ${authToken}`);
+  }
+  return {
+    authToken,
+    currentUser,
+    channel,
+  };
+};
+
+(async () => {
+  const server = new ApolloServer({
     schema,
-});
-server['graphqlPath'] = "/api/v1"
+    context,
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
+  });
 
+  await server.start();
+  server.applyMiddleware({ app });
 
-console.log(server)
+  httpServer.listen(PORT, () => {
+    console.log(
+      `🚀 Query endpoint ready at http://localhost:${PORT}${server.graphqlPath}`
+    );
 
-server.listen(port, host);
+    // @ts-ignore
+    new SubscriptionServer.create(
+      { schema, execute, subscribe },
+      { server: httpServer, path: server.graphqlPath }
+    );
 
+    console.log(
+      `🚀 Subscription endpoint ready at ws://localhost:${PORT}${server.graphqlPath}`
+    );
+  });
+})();
