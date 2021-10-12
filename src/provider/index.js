@@ -15,6 +15,7 @@ class Messages {
     };
 
     messages.push(message);
+
     pubSub(SUBSCRIBE, { messageAdded: message });
 
     return message;

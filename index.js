@@ -54,7 +54,7 @@ let listConnect = [];
         onConnect(connectionParams, webSocket, context) {
           const connection =
             webSocket?.upgradeReq?.headers["sec-websocket-key"];
-          const currentUser = connectionParams?.Authorization;
+          const currentUser = connectionParams?.Authorization ||21;
 
           listConnect.push({ currentUser, connection });
           return { connection, currentUser };
