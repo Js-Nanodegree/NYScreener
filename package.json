@@ -30,6 +30,7 @@
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
+    "firebase": "^9.0.0-beta.8",
     "gql": "^1.1.2",
     "graphql": "^15.6.1",
     "graphql-modules": "^1.4.4",
@@ -37,11 +38,14 @@
     "graphql-tag": "^2.12.5",
     "helmet": "^4.6.0",
     "http": "^0.0.1-security",
+    "jwt-decode": "^3.1.2",
+    "node-env-run": "^4.0.2",
     "nodemon": "^2.0.12",
     "react": "^17.0.2",
     "react-native": "^0.65.1",
     "reflect-metadata": "^0.1.13",
     "subscriptions-transport-ws": "^0.9.19",
+    "uuid": "^8.3.2",
     "ws": "^8.2.3",
     "yarn": "^1.22.15"
   }

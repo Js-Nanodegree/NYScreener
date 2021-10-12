@@ -1,46 +1,52 @@
 // @ts-check
-const { createServer } = require("http");
-const express = require("express");
-// const { execute, subscribe } = require("graphql");
-const { ApolloServer, gql } = require("apollo-server-express");
-const { SubscriptionServer } = require("subscriptions-transport-ws");
+import { createServer } from "http";
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import { SubscriptionServer } from "subscriptions-transport-ws";
 import { schema, execute, subscribe } from "./application";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import jwt_decode from "jwt-decode";
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 const app = express();
-const httpServer = createServer(app);
-let channel = [];
-
-const context = ({ req }) => {
-  let authToken = null;
-  let currentUser = null;
-  try {
-    authToken = req.headers["authorization"];
-    channel[authToken] = authToken;
-  } catch (e) {
-    console.warn(`Unable to authenticate using auth token: ${authToken}`);
+const authorization = (ws, token) => {
+  let data = token["authorization"];
+  if (ws) {
+    data = token["Authorization"];
   }
-  return {
-    authToken,
-    currentUser,
-    channel,
-  };
-};
+  if (!token) {
+    throw new Error("");
+  }
 
-let listConnect = [];
+  const idUser = data?.split(" ")?.[1] || null;
+  if (!idUser) {
+    throw new Error("");
+  }
+
+  return jwt_decode(idUser)["id"] || null;
+};
 
 (async () => {
   const server = new ApolloServer({
     schema,
-    context,
+    introspection: true,
+    context: ({ req }) => {
+      let currentUser = null;
+      const token = req.headers;
+      currentUser = authorization(false, token);
+      return {
+        currentUser,
+      };
+    },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   });
 
   await server.start();
   server.applyMiddleware({ app });
 
-  httpServer.listen(PORT, () => {
+  const httpServer = createServer(app);
+
+  httpServer.listen(PORT, (link) => {
     console.log(
       `🚀 Query endpoint ready at http://localhost:${PORT}${server.graphqlPath}`
     );
@@ -51,16 +57,14 @@ let listConnect = [];
         schema,
         execute,
         subscribe,
-        onConnect(connectionParams, webSocket, context) {
+        onConnect(connectionParams, webSocket) {
+          let currentUser;
           const connection =
             webSocket?.upgradeReq?.headers["sec-websocket-key"];
-          const currentUser = connectionParams?.Authorization ||21;
-
-          listConnect.push({ currentUser, connection });
+          currentUser = authorization(true, connectionParams);
           return { connection, currentUser };
         },
-        onDisconnect(webSocket, context) {
-          console.log(context);
+        onDisconnect() {
           console.log("Disconnected!");
         },
       },
@@ -72,6 +76,3 @@ let listConnect = [];
     );
   });
 })();
-
-
-console.log(listConnect)

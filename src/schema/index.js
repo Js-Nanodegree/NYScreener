@@ -2,15 +2,15 @@ import { createModule, gql } from "graphql-modules";
 
 export default gql`
   type Query {
-    messages(from: String, to: Int): [Schema!]
+    messages(to: Int): [Schema!]
   }
 
   type Mutation {
-    sendMessage(from: Int, to: Int, message: String): Schema!
+    sendMessage(to: Int, message: String): Schema!
   }
 
   type Subscription {
-    messageAdded(channel: Int!): Schema!
+    messageAdded: Schema!
   }
 
   type Schema {
